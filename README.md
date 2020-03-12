@@ -36,6 +36,8 @@ cat /etc/issue
 
 </details>
 
+---
+
 ### 2. Create a Docker container and mount host volume
 
 #### What to do:
@@ -81,7 +83,9 @@ You should see "Hello SocialNerds!"
 
 </details>
 
-### 2. Create a Docker container with named volume
+### 3. Create a Docker container with named volume
+
+---
 
 #### What to do:
 - Create a Debian container (Dockerfile bluh bluh)
@@ -140,3 +144,38 @@ ls -la /html/index.html
 ```
 
 </details>
+
+---
+
+### 4. Create a network for all services
+
+#### What to do:
+- Run ./clearall
+- Go to 4_Network folder (cd 4_Network)
+- Run ./setall
+- Run "docker ps" to check everything is there
+- Create a network named apache_tomcat_mysql
+- Connect all containers to it
+- Connect mysql container with "superdb" alias
+
+#### Hints:
+- docker network connect [NETWORK_NAME] [CONTAINER_NAME]
+- docker network connect --alias [ALIAS] [NETWORK_NAME] [CONTAINER_NAME]
+
+<details><summary>Solution</summary>
+
+#### Create network
+```bash
+docker network apache_tomcat_mysql
+```
+
+#### Connect all to network
+```bash
+docker network connect apache_tomcat_mysql apache
+docker network connect apache_tomcat_mysql tomcat
+docker network connect --alias superdb apache_tomcat_mysql mysql
+```
+
+</details>
+
+---

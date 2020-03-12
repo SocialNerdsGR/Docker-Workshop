@@ -1,0 +1,12 @@
+#!/bin/bash
+
+docker build . -t ubuntu_image_with_network
+
+docker network create apache_tomcat
+docker network create tomcat_mysql
+
+docker run -d --name apache --network apache_tomcat -p 80:80 -p 443:443 ubuntu_image_with_network
+docker run -d --name tomcat --network apache_tomcat ubuntu_image_with_network
+docker run -d --name mysql --network tomcat_mysql ubuntu_image_with_network
+
+docker network connect tomcat_mysql tomcat
