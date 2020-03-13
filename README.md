@@ -179,3 +179,65 @@ docker network connect --alias superdb apache_tomcat_mysql mysql
 </details>
 
 ---
+
+### 5. RUN MySQL with more environment variables
+
+#### What to do:
+- Run ./clearall
+- Run a MySQL 5.7 container and pass environment variables for
+  - MYSQL_ROOT_PASSWORD
+  - MYSQL_DATABASE (Creates a database by default)
+  - MYSQL_USER (Creates a user for the default database)
+  - MYSQL_PASSWORD (Sets a password for this user)
+
+#### Hints:
+- "-e MYSQL_ROOT_PASSWORD=[MYSQL_ROOT_PASSWORD]"
+
+<details><summary>Solution</summary>
+
+#### Run MySQL container
+```bash
+docker run -d -e MYSQL_ROOT_PASSWORD=root \
+  -e MYSQL_DATABASE=my_default_database \
+  -e MYSQL_USER=my_default_user \
+  -e MYSQL_PASSWORD=password \
+  mysql:5.7
+```
+
+</details>
+
+---
+
+### 6. RUN MySQL with environment variables from file
+
+#### What to do:
+- Run ./clearall
+- Create a new folder and cd to this folder
+- Run a MySQL 5.7 container and pass environment variables
+  through an .env file for
+  - MYSQL_ROOT_PASSWORD
+  - MYSQL_DATABASE (Creates a database by default)
+  - MYSQL_USER (Creates a user for the default database)
+  - MYSQL_PASSWORD (Sets a password for this user)
+
+#### Hints:
+- "--env-file .env"
+
+<details><summary>Solution</summary>
+
+#### Create file and add variables
+```bash
+touch .env
+echo "MYSQL_ROOT_PASSWORD=root\n\
+MYSQL_DATABASE=my_default_database\n\
+MYSQL_USER=my_default_user\n\
+MYSQL_PASSWORD=password\n" \
+> .env
+```
+
+#### Run MySQL container
+```bash
+docker run -d --env-file .env mysql:5.7
+```
+
+</details>
