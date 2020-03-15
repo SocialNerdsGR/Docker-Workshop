@@ -241,3 +241,60 @@ docker run -d --env-file .env mysql:5.7
 ```
 
 </details>
+
+---
+
+### 7. COPY, CMD
+
+#### What to do:
+- Run ./clearall
+- Create a new folder and cd to this folder
+- Create Dockerfile and a "start" script
+- In the start script add the command "tail -f /dev/null"
+- Create a Dockerfile "FROM ubuntu"
+- In the Dockerfile create a user named "serveruser"
+- COPY the script inside the Docker image under /home/serveruser/
+- Set the owner of the start script as "serveruser"
+- Make the start script the default command
+
+#### Hints:
+- Create user "RUN useradd -ms /bin/bash [USERNAME]"
+- Add execute permission "RUN chmod +x [FILE]"
+- Copy from host to image "COPY [HOST_SOURCE] [IMAGE_DESTINATION]"
+- Script annotation "#!/bin/bash"
+- Default command "CMD [COMMAND]"
+
+<details><summary>Solution</summary>
+
+#### Dockerfile
+```Dockerfile
+FROM ubuntu
+
+RUN useradd -ms /bin/bash serveruser
+
+COPY ./start /home/serveruser/start
+RUN chmod +x /home/serveruser/start
+RUN chown serveruser:serveruser /home/serveruser/start
+
+CMD ["/home/serveruser/start"]
+```
+
+#### Start script
+```bash
+#!/bin/bash
+
+tail -f /dev/null
+```
+
+#### Build image
+```bash
+docker build . -t ubuntu_image
+```
+
+#### RUN image
+```bash
+docker run -d ubuntu_image
+```
+</details>
+
+---
