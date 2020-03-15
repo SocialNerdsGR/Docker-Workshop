@@ -298,3 +298,36 @@ docker run -d ubuntu_image
 </details>
 
 ---
+
+### 8. ARG
+
+#### What to do:
+- Run ./clearall
+- Create a Dockerfile "FROM ubuntu"
+- In the Dockerfile create a user named "serveruser"
+- Build the image UID=512 for "serveruser"
+
+#### Hints:
+- Create user "RUN useradd -ms /bin/bash -u [UID] [USERNAME]"
+- Dockerfile syntax "ARG [ARGUMENT]"
+- Command "--build-arg UID=[UID]"
+
+<details><summary>Solution</summary>
+
+#### Dockerfile
+```Dockerfile
+FROM ubuntu
+
+ARG UID
+
+RUN useradd -ms /bin/bash -u $UID serveruser
+```
+
+#### Build image
+```bash
+docker build . --build-arg UID=512 -t ubuntu_image
+```
+
+</details>
+
+---
