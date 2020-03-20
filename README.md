@@ -331,3 +331,40 @@ docker build . --build-arg UID=512 -t ubuntu_image
 </details>
 
 ---
+
+### 9. docker-entrypoint
+
+#### What to do:
+- Run ./clearall
+- cd to 9_Docker_Entrypoint folder
+- When docker-entrypoint.sh runs, create a new folder /home/serveruser/code
+- This new folder must be owned by user "serveruser"
+- The name of the folder must pass as env variable E.g. "CODE_FOLDER"
+
+#### Hints:
+- Create folder: "mkdir /home/serveruser/[FOLDER_NAME]"
+- Change ownsership "chown -R [USERNAME]:[GROUP] /home/serveruser/[FOLDER_NAME]"
+
+<details><summary>Solution</summary>
+
+#### docker-entrypoint.sh
+```bash
+###
+mkdir /home/serveruser/$CODE_FOLDER
+chown -R serveruser:serveruser /home/serveruser/$CODE_FOLDER
+###
+```
+
+#### Build image
+```bash
+docker build . -t ubuntu_image
+```
+
+#### Run image
+```bash
+docker run -d --name ubuntu_container -e UID=512 -e CODE_FOLDER=code ubuntu_image
+```
+
+</details>
+
+---
