@@ -368,3 +368,110 @@ docker run -d --name ubuntu_container -e UID=512 -e CODE_FOLDER=code ubuntu_imag
 </details>
 
 ---
+
+### 10. Docker Compose
+
+#### What to do:
+- Run ./clearall
+- cd to 10_Docker_Compose folder
+- Add a new service named app_http_2
+- Add to the same network as app_http
+- No exposed ports
+- Same command
+- Same volume
+
+#### Hints:
+- What hints? It is just copy paste :)
+- Build images: docker-compose build
+- Run images: docker-compose up -d
+- Stop and Remove: docker-compose down
+
+<details><summary>Solution</summary>
+
+#### docker-compose.yml
+```bash
+###
+http_2:
+  image: ubuntu:18.04
+  command: ["tail", "-f", "/dev/null"]
+  container_name: app_http_2
+  volumes:
+    - ./data:/data
+  networks:
+    app_network:
+###
+```
+
+</details>
+
+---
+
+### 11. Docker Compose env
+
+#### What to do:
+- Run ./clearall
+- cd to 11_Docker_Compose_env folder
+- Pass an environment variable to fpm service named APP_DEBUG
+- The value of the variable should be "TRUE"
+
+#### Hints:
+- Don't forget to add the variable in the .env file
+
+<details><summary>Solution</summary>
+
+#### docker-compose.yml
+```bash
+###
+environment:
+  APP_DEBUG: ${APP_DEBUG}
+###
+```
+
+#### .env
+```bash
+###
+APP_DEBUG=TRUE
+###
+```
+
+</details>
+
+---
+
+### 12. Docker Compose args
+
+#### What to do:
+- Run ./clearall
+- cd to 12_Docker_Compose_args folder
+- Pass an argument to fpm service named UID
+- The value of the variable should be the user id of your user on your machine
+
+#### Hints:
+- Type "id" to get user id
+- Google "docker compose arguments"
+
+<details><summary>Solution</summary>
+
+#### docker-compose.yml
+```bash
+###
+fpm:
+  build:
+    context: ./fpm
+    args:
+      UID: ${UID}
+  container_name: fpm
+  .....
+###
+```
+
+#### .env
+```bash
+###
+UID=1234
+###
+```
+
+</details>
+
+---

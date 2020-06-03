@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  http:
+    image: ubuntu:18.04
+    command: ["tail", "-f", "/dev/null"]
+    container_name: app_http
+    volumes:
+      - ./data:/data
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      app_network:
+
+networks:
+  app_network:
