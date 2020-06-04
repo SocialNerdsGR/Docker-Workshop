@@ -12,6 +12,6 @@ RUN cd /etc/apache2/sites-available && a2ensite * && a2dissite default-ssl 000-d
 
 RUN chown -R serveruser:serveruser /home/serveruser
 
-WORKDIR /home/serveruser
+WORKDIR /home/serveruser/code
 
 CMD ["/usr/sbin/apachectl", "-DFOREGROUND"]

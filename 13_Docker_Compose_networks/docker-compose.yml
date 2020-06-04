@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  http:
+    build:
+      context: ./http
+      args:
+        UID: ${UID}
+    container_name: http
+    restart: always
+    volumes:
+      - ./code:/home/serveruser/code
+    ports:
+      - 8080:80
+  fpm:
+    build:
+      context: ./fpm
+      args:
+        UID: ${UID}
+    container_name: fpm
+    restart: always
+    volumes:
+      - ./code:/home/serveruser/code
+  db:
+    build:
+      context: ./db
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:

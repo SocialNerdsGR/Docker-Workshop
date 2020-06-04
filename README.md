@@ -390,7 +390,6 @@ docker run -d --name ubuntu_container -e UID=512 -e CODE_FOLDER=code ubuntu_imag
 
 #### docker-compose.yml
 ```bash
-###
 http_2:
   image: ubuntu:18.04
   command: ["tail", "-f", "/dev/null"]
@@ -399,7 +398,6 @@ http_2:
     - ./data:/data
   networks:
     app_network:
-###
 ```
 
 </details>
@@ -421,10 +419,8 @@ http_2:
 
 #### docker-compose.yml
 ```bash
-###
 environment:
   APP_DEBUG: ${APP_DEBUG}
-###
 ```
 
 #### .env
@@ -454,7 +450,6 @@ APP_DEBUG=TRUE
 
 #### docker-compose.yml
 ```bash
-###
 fpm:
   build:
     context: ./fpm
@@ -462,14 +457,119 @@ fpm:
       UID: ${UID}
   container_name: fpm
   .....
-###
 ```
 
 #### .env
 ```bash
-###
 UID=1234
-###
+```
+
+</details>
+
+---
+
+### 13. Docker Compose networks
+
+#### What to do:
+- Run ./clearall
+- cd to 13_Docker_Compose_networks folder
+- Set a network for http and fpm named app_public_network
+- Set a network for fpm and db named app_private_network
+
+<details><summary>Solution</summary>
+
+#### docker-compose.yml
+```bash
+version: '3.8'
+
+services:
+  http:
+    build:
+      context: ./http
+      args:
+        UID: ${UID}
+    container_name: http
+    restart: always
+    volumes:
+      - ./code:/home/serveruser/code
+    ports:
+      - 8080:80
+    networks:
+      app_public_network:
+  fpm:
+    build:
+      context: ./fpm
+      args:
+        UID: ${UID}
+    container_name: fpm
+    restart: always
+    volumes:
+      - ./code:/home/serveruser/code
+    networks:
+      app_private_network:
+      app_private_network:
+  db:
+    build:
+      context: ./db
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      app_private_network:
+
+networks:
+  app_public_network:
+  app_private_network:
+
+volumes:
+  dbdata:
+```
+
+</details>
+
+---
+
+---
+
+### 14. Docker Compose override
+
+#### What to do:
+- Run ./clearall
+- cd to 14_Docker_Compose_override folder
+- Create a new file docker-compose-dev.yml
+- Add to docker-compose-dev.yml only the db service configuration
+- Remove the db service configuration from docker-compose.yml
+
+<details><summary>Solution</summary>
+
+#### docker-compose-dev.yml
+```bash
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./db
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      app_network:
+
+volumes:
+  dbdata:
 ```
 
 </details>

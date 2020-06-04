@@ -1,6 +1,12 @@
 FROM php:7.4-fpm
 
+ARG UID=1000
+
 RUN  \
+  # User.
+  sed -i -e"s/^user\s=\swww-data/user = serveruser/" /usr/local/etc/php-fpm.d/www.conf && \
+  sed -i -e"s/^group\s=\swww-data/group = serveruser/" /usr/local/etc/php-fpm.d/www.conf && \
+  useradd -ms /bin/bash serveruser -u $UID && \
   # DB.
   docker-php-ext-install pdo_mysql && \
   # libs.

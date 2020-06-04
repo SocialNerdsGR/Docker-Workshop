@@ -24,4 +24,4 @@ RUN  \
   rm -rf composer-setup.php && \
   echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc
 
-WORKDIR /home/serveruser/vhosts/main
+WORKDIR /home/serveruser/code
