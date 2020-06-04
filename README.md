@@ -535,8 +535,6 @@ volumes:
 
 ---
 
----
-
 ### 14. Docker Compose override
 
 #### What to do:
