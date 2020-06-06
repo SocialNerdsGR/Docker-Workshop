@@ -166,7 +166,7 @@ ls -la /html/index.html
 
 #### Create network
 ```bash
-docker network apache_tomcat_mysql
+docker network create apache_tomcat_mysql
 ```
 
 #### Connect all to network
