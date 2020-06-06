@@ -71,7 +71,7 @@ docker build . -t debian_image
 
 #### Run image
 ```bash
-docker run -it --mount type=bind,source="$(pwd)/html",target=/html ubuntu_image bash
+docker run -it --mount type=bind,source="$(pwd)/html",target=/html debian_image bash
 ```
 
 #### Run inside the container now
@@ -120,7 +120,7 @@ docker build . -t debian_image
 
 #### Run image
 ```bash
-docker run -it --name debian_1 --mount source=html,target=/html ubuntu_image bash
+docker run -it --name debian_1 --mount source=html,target=/html debian_image bash
 ```
 
 #### Run inside the container now
@@ -135,7 +135,7 @@ exit
 
 #### Run another container
 ```bash
-docker run -it --name debian_2 --mount source=html,target=/html ubuntu_image bash
+docker run -it --name debian_2 --mount source=html,target=/html debian_image bash
 ```
 
 #### Check file exists
